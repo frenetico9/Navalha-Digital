@@ -1,22 +1,11 @@
 import { User, UserType, Service, Barber, Appointment, Review, BarbershopProfile, BarbershopSubscription, SubscriptionPlanTier } from '../types';
 import { MOCK_API_DELAY, SUBSCRIPTION_PLANS, DEFAULT_BARBERSHOP_WORKING_HOURS, TIME_SLOTS_INTERVAL, DAYS_OF_WEEK } from '../constants';
 
-import { 
-  addMinutes, 
-  format, 
-  parse, 
-  set, 
-  addDays, 
-  addMonths, 
-  getDay, 
-  isSameDay, 
-  startOfDay, 
-  endOfDay, 
-  eachMinuteOfInterval, 
-  isBefore, 
-  isEqual, 
-  parseISO 
-} from 'date-fns';
+import { addMinutes, format, addDays, addMonths, getDay, isSameDay, endOfDay, eachMinuteOfInterval, isBefore, isEqual } from 'date-fns';
+import parse from 'date-fns/parse';
+import set from 'date-fns/set';
+import startOfDay from 'date-fns/startOfDay';
+import parseISO from 'date-fns/parseISO';
 
 
 // In-memory store
@@ -26,8 +15,8 @@ let mockUsers: User[] = [
   { id: 'admin2', email: 'vip@navalha.com', type: UserType.ADMIN, name: 'Ana Estilista', barbershopName: 'Navalha VIP Club', phone: '(31) 99999-8888', address: 'Avenida Principal, 789, Belo Horizonte' },
 ];
 let mockBarbershopProfiles: BarbershopProfile[] = [
-    { id: 'admin1', name: 'Barbearia do Carlos', responsibleName: 'Carlos Dono', email: 'admin@barbearia.com', phone: '(21) 91234-5678', address: 'Rua das Tesouras, 123, Rio de Janeiro', description: 'Cortes clássicos e modernos com a melhor navalha da cidade.', logoUrl: 'https://picsum.photos/seed/barbercarlos/200/200', workingHours: DEFAULT_BARBERSHOP_WORKING_HOURS },
-    { id: 'admin2', name: 'Navalha VIP Club', responsibleName: 'Ana Estilista', email: 'vip@navalha.com', phone: '(31) 99999-8888', address: 'Avenida Principal, 789, Belo Horizonte', description: 'Experiência premium para o homem que se cuida.', logoUrl: 'https://picsum.photos/seed/barberana/200/200', workingHours: DEFAULT_BARBERSHOP_WORKING_HOURS.map(wh => ({...wh, start: '10:00', end: '20:00'})) },
+    { id: 'admin1', name: 'Barbearia do Carlos', responsibleName: 'Carlos Dono', email: 'admin@barbearia.com', phone: '(21) 91234-5678', address: 'Rua das Tesouras, 123, Rio de Janeiro', description: 'Cortes clássicos e modernos com a melhor navalha da cidade.', logoUrl: 'https://picsum.photos/seed/barbercarlos/200/200', coverPhotoUrl: 'https://picsum.photos/seed/barbercarloscover/1200/400', workingHours: DEFAULT_BARBERSHOP_WORKING_HOURS },
+    { id: 'admin2', name: 'Navalha VIP Club', responsibleName: 'Ana Estilista', email: 'vip@navalha.com', phone: '(31) 99999-8888', address: 'Avenida Principal, 789, Belo Horizonte', description: 'Experiência premium para o homem que se cuida.', logoUrl: 'https://picsum.photos/seed/barberana/200/200', coverPhotoUrl: 'https://picsum.photos/seed/barberanacover/1200/400', workingHours: DEFAULT_BARBERSHOP_WORKING_HOURS.map(wh => ({...wh, start: '10:00', end: '20:00'})) },
 ];
 let mockServices: Service[] = [
   { id: 'service1', barbershopId: 'admin1', name: 'Corte Masculino', price: 50, duration: 45, isActive: true, description: "Corte clássico ou moderno, tesoura e máquina." },
@@ -93,7 +82,7 @@ export const mockSignupBarbershop = async (barbershopName: string, responsibleNa
   mockUsers.push(newUser);
   // Create default profile and free subscription
   mockBarbershopProfiles.push({
-    id: newAdminId, name: barbershopName, responsibleName, email, phone, address, workingHours: DEFAULT_BARBERSHOP_WORKING_HOURS
+    id: newAdminId, name: barbershopName, responsibleName, email, phone, address, workingHours: DEFAULT_BARBERSHOP_WORKING_HOURS, coverPhotoUrl: `https://picsum.photos/seed/${newAdminId}cover/1200/400`, logoUrl: `https://picsum.photos/seed/${newAdminId}logo/200/200`
   });
   mockBarbershopSubscriptions.push({
     barbershopId: newAdminId, planId: SubscriptionPlanTier.FREE, status: 'active', startDate: new Date().toISOString()

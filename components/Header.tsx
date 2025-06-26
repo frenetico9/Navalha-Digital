@@ -1,6 +1,7 @@
 import React from 'react';
+// @ts-ignore
 import { Link, useNavigate } from 'react-router-dom';
-import { NAVALHA_SVG_ICON } from '../constants';
+import { NAVALHA_LOGO_URL } from '../constants';
 import { useAuth } from '../hooks/useAuth';
 import Button from './Button';
 
@@ -17,7 +18,7 @@ const Header: React.FC = () => {
     <header className="bg-primary-blue text-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
         <Link to="/" className="flex items-center space-x-2 group">
-          <span className="w-8 h-8 group-hover:opacity-80 transition-opacity" dangerouslySetInnerHTML={{ __html: NAVALHA_SVG_ICON }} />
+          <img src={NAVALHA_LOGO_URL} alt="Navalha Digital Logo" className="w-16 h-16 object-contain group-hover:opacity-80 transition-opacity" />
           <h1 className="text-xl sm:text-2xl font-bold group-hover:opacity-80 transition-opacity">Navalha Digital</h1>
         </Link>
         <nav className="space-x-3 sm:space-x-4 flex items-center">

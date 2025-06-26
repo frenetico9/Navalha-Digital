@@ -9,6 +9,7 @@ import parseISO from 'date-fns/parseISO';
 import subDays from 'date-fns/subDays';
 import startOfWeek from 'date-fns/startOfWeek';
 import { ptBR } from 'date-fns/locale/pt-BR';
+// @ts-ignore
 import { Link } from 'react-router-dom';
 import Button from '../../components/Button';
 import { PRIMARY_BLUE } from '../../constants';

@@ -1,4 +1,5 @@
 import React from 'react';
+// @ts-ignore
 import { Outlet, useNavigate } from 'react-router-dom';
 import AdminSidebar from '../../components/Sidebar';
 import { useAuth } from '../../hooks/useAuth';

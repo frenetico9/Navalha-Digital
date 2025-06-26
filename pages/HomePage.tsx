@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+// @ts-ignore
 import { Link } from 'react-router-dom';
 import Button from '../components/Button';
-import { NAVALHA_SVG_ICON } from '../constants';
+import { NAVALHA_LOGO_URL } from '../constants';
 import { useAuth } from '../hooks/useAuth';
 import { BarbershopProfile, Service as ServiceType } from '../types';
 import { mockGetPublicBarbershops, mockGetServicesForBarbershop } from '../services/mockApiService';
@@ -84,10 +85,10 @@ const HomePage: React.FC = () => {
     <div className="text-text-dark space-y-16 md:space-y-24">
       {/* Hero Section */}
       <section className="py-16 md:py-24 bg-gradient-to-br from-primary-blue to-blue-500 text-white rounded-xl shadow-2xl overflow-hidden relative">
-        <div className="absolute inset-0 opacity-10 bg-repeat bg-center" style={{backgroundImage: "url('data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2252%22%20height%3D%2226%22%20viewBox%3D%220%200%2052%2026%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.4%22%3E%3Cpath%20d%3D%22M10%200h1v26h-1zM36%200h1v26h-1z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')"}}></div>
+        <div className="absolute inset-0 opacity-100 bg-repeat bg-center" style={{backgroundImage: "url('data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M0%2010%20L10%200%20M10%2020%20L20%2010%20M0%2010%20L10%2020%20M10%200%20L20%2010%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%220.3%22%20opacity%3D%220.1%22%2F%3E%3C%2Fsvg%3E')"}}></div>
         <div className="container mx-auto px-6 text-center relative z-10">
           <div className="flex justify-center mb-6">
-            <span className="text-6xl w-20 h-20" dangerouslySetInnerHTML={{ __html: NAVALHA_SVG_ICON.replace('class="w-full h-full"', 'class="w-full h-full filter drop-shadow-lg"') }} />
+            <img src={NAVALHA_LOGO_URL} alt="Navalha Digital Logo" className="w-48 h-48 object-contain filter drop-shadow-lg" />
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight">Navalha Digital</h1>
           <p className="text-lg md:text-xl mb-10 max-w-2xl mx-auto">

@@ -1,12 +1,13 @@
 import React from 'react';
+// @ts-ignore
 import { Link } from 'react-router-dom';
 import Button from '../../components/Button';
-import { NAVALHA_SVG_ICON } from '../../constants';
+import { NAVALHA_LOGO_URL } from '../../constants';
 
 const NotFoundPage: React.FC = () => {
   return (
     <div className="min-h-[calc(100vh-200px)] flex flex-col items-center justify-center bg-gradient-to-br from-white to-light-blue p-6 text-center">
-      <span className="text-primary-blue w-24 h-24 sm:w-32 sm:h-32 mb-6" dangerouslySetInnerHTML={{ __html: NAVALHA_SVG_ICON }} />
+      <img src={NAVALHA_LOGO_URL} alt="Navalha Digital Logo" className="w-36 h-36 sm:w-48 sm:h-48 object-contain mb-6" />
       <h1 className="text-5xl sm:text-6xl font-bold text-primary-blue mb-4">404</h1>
       <h2 className="text-2xl sm:text-3xl font-semibold text-text-dark mb-6">Página Não Encontrada</h2>
       <p className="text-text-light mb-8 max-w-md mx-auto">

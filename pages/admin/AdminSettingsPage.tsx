@@ -1,5 +1,6 @@
 
 
+
 import React, { useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { useForm } from '../../hooks/useForm';
@@ -23,6 +24,7 @@ const AdminSettingsPage: React.FC = () => {
     address: '',
     description: '',
     logoUrl: '',
+    coverPhotoUrl: '',
     workingHours: DEFAULT_BARBERSHOP_WORKING_HOURS,
   };
 
@@ -66,6 +68,7 @@ const AdminSettingsPage: React.FC = () => {
         address: barbershopProfile.address,
         description: barbershopProfile.description || '',
         logoUrl: barbershopProfile.logoUrl || '',
+        coverPhotoUrl: barbershopProfile.coverPhotoUrl || '',
         workingHours: barbershopProfile.workingHours?.length === 7 ? barbershopProfile.workingHours : DEFAULT_BARBERSHOP_WORKING_HOURS,
       });
     } else if (user) { 
@@ -108,6 +111,16 @@ const AdminSettingsPage: React.FC = () => {
             {values.logoUrl && (
                 <div className="mt-2">
                     <img src={values.logoUrl} alt="Prévia da Logo" className="h-24 w-24 object-contain rounded-lg border p-1 shadow-sm bg-gray-50" 
+                        onError={(e) => (e.currentTarget.style.display = 'none')} 
+                        onLoad={(e) => (e.currentTarget.style.display = 'block')}
+                    />
+                     <p className="text-xs text-gray-500 mt-1">Se a imagem não aparecer, verifique a URL.</p>
+                </div>
+            )}
+            <Input label="URL da Foto de Capa (Opcional)" name="coverPhotoUrl" value={values.coverPhotoUrl} onChange={handleChange} placeholder="https://exemplo.com/capa.jpg" disabled={isSubmitting}/>
+            {values.coverPhotoUrl && (
+                <div className="mt-2">
+                    <img src={values.coverPhotoUrl} alt="Prévia da Capa" className="h-32 w-full object-cover rounded-lg border p-1 shadow-sm bg-gray-50" 
                         onError={(e) => (e.currentTarget.style.display = 'none')} 
                         onLoad={(e) => (e.currentTarget.style.display = 'block')}
                     />

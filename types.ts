@@ -3,20 +3,37 @@ export enum UserType {
   ADMIN = 'admin', // Represents a Barbershop owner/manager
 }
 
-export interface User {
-  id: string;
-  email: string;
-  type: UserType;
-  name?: string; // Client name or Barbershop responsible name
+// Supabase specific metadata types
+export interface UserMetadata {
+  name?: string;
   phone?: string;
-  barbershopName?: string; // Only for admin users (name of their barbershop)
-  address?: string; // Only for admin users (address of their barbershop for initial setup)
-  // Password is not stored here, token is handled by mock API
+  // Any other custom fields you store in user_metadata
 }
+
+export interface AppMetadata {
+  user_type?: UserType;
+  barbershop_name?: string; // Only for admin users
+  initial_address?: string; // For initial setup of barbershop
+  // Any other custom fields you store in app_metadata
+}
+
+export interface User {
+  id: string; // Supabase user ID
+  email?: string; // Supabase email
+  user_metadata?: UserMetadata;
+  app_metadata?: AppMetadata;
+  // Deprecated fields, to be derived from metadata
+  type: UserType; // Will derive from app_metadata.user_type
+  name?: string; // Will derive from user_metadata.name
+  phone?: string; // Will derive from user_metadata.phone
+  barbershopName?: string; // Will derive from app_metadata.barbershop_name
+  address?: string; // Will derive from app_metadata.initial_address
+}
+
 
 export interface Service {
   id: string;
-  barbershopId: string;
+  barbershopId: string; // Foreign key to BarbershopProfile.id (which is a user.id)
   name: string;
   price: number;
   duration: number; // in minutes
@@ -78,7 +95,7 @@ export interface SubscriptionPlan {
 }
 
 export interface BarbershopSubscription {
-  barbershopId: string;
+  barbershopId: string; // user.id of the admin
   planId: SubscriptionPlanTier;
   status: 'active' | 'inactive' | 'past_due' | 'cancelled'; // inactive could mean payment failed
   startDate: string; // ISO date string
@@ -90,11 +107,12 @@ export interface BarbershopProfile {
   id: string; // same as user.id for admin type user
   name: string; // Barbershop name
   responsibleName: string;
-  email: string; // Contact email for the barbershop
+  email: string; // Contact email for the barbershop (often same as user's email)
   phone: string;
   address: string;
   description?: string;
   logoUrl?: string; // URL to logo image
+  coverPhotoUrl?: string; // URL to cover photo image
   workingHours: { dayOfWeek: number; start: string; end: string; isOpen: boolean }[];
   // Other settings like cover images, specific theme colors could be added later
 }

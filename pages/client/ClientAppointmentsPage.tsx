@@ -8,6 +8,7 @@ import Modal from '../../components/Modal';
 import StarRating from '../../components/StarRating';
 import Button from '../../components/Button';
 import { useNotification } from '../../contexts/NotificationContext';
+// @ts-ignore
 import { Link } from 'react-router-dom';
 
 const ClientAppointmentsPage: React.FC = () => {

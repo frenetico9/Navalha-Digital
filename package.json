@@ -1,5 +1,5 @@
 {
-  "name": "navalha-digital---agendamento-para-barbearias",
+  "name": "copy-of-navalha-digital---agendamento-para-barbearias",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,11 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-router-dom": "^7.6.2",
-    "date-fns": "^4.1.0",
-    "recharts": "^3.0.0"
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-router-dom": "6.25.1",
+    "date-fns": "3.6.0",
+    "recharts": "2.12.7",
+    "@supabase/supabase-js": "2.44.4",
+    "@/supabaseClient": "latest"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

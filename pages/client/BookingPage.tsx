@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
+// @ts-ignore
 import { useParams, useNavigate, Link, useLocation } from 'react-router-dom';
 import { BarbershopProfile, Service, Barber, Appointment } from '../../types';
 import { useAuth } from '../../hooks/useAuth';

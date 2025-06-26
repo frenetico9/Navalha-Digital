@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
+// @ts-ignore
 import { useParams, Link } from 'react-router-dom';
 import { BarbershopProfile, Service, Review as ReviewType } from '../../types';
 import { mockGetBarbershopProfile, mockGetServicesForBarbershop, mockGetReviewsForBarbershop } from '../../services/mockApiService';
@@ -66,27 +67,46 @@ const BarbershopPublicPage: React.FC = () => {
   if (error) return <div className="text-center text-red-600 py-10 text-xl bg-white p-8 rounded-lg shadow-md">{error} <Link to="/"><Button variant="primary" className="mt-6">Voltar para Início</Button></Link></div>;
   if (!barbershop) return <div className="text-center text-gray-500 py-10 text-xl bg-white p-8 rounded-lg shadow-md">Barbearia não encontrada.</div>;
 
+  const defaultCoverStyle = {
+    background: 'linear-gradient(135deg, #007BFF 0%, #0056b3 100%)', // Default gradient
+  };
+  const coverPhotoStyle = barbershop.coverPhotoUrl 
+    ? { backgroundImage: `url(${barbershop.coverPhotoUrl})` } 
+    : defaultCoverStyle;
+
   return (
     <div className="bg-gray-50 min-h-screen pb-12">
-      {/* Header Section */}
-      <header className="bg-gradient-to-br from-primary-blue to-blue-500 text-white py-10 md:py-16 shadow-lg relative mb-10">
-        <div className="absolute inset-0 opacity-10 bg-repeat bg-center" style={{backgroundImage: "url('data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2252%22%20height%3D%2226%22%20viewBox%3D%220%200%2052%2026%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.4%22%3E%3Cpath%20d%3D%22M10%200h1v26h-1zM36%200h1v26h-1z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')"}}></div>
-        <div className="container mx-auto px-4 text-center relative z-10">
+      {/* Header Section with Cover Photo */}
+      <header className="relative text-white shadow-lg mb-10">
+        <div 
+          className="w-full h-48 sm:h-64 md:h-80 bg-cover bg-center"
+          style={coverPhotoStyle}
+          role="img"
+          aria-label={`${barbershop.name} capa`}
+        >
+          {/* Overlay for better text readability if background is too light/busy */}
+          <div className="absolute inset-0 bg-black opacity-30"></div>
+        </div>
+        <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 bg-gradient-to-t from-black/70 via-black/50 to-transparent">
+          <div className="container mx-auto flex flex-col md:flex-row items-center relative z-10">
             {barbershop.logoUrl ? 
-                <img src={barbershop.logoUrl} alt={`${barbershop.name} Logo`} className="w-28 h-28 sm:w-32 sm:h-32 rounded-full mx-auto mb-4 border-4 border-white object-cover shadow-xl" />
-                : <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full mx-auto mb-4 bg-white flex items-center justify-center text-primary-blue text-5xl font-bold border-4 border-white shadow-xl">{barbershop.name.charAt(0)}</div>
+                <img src={barbershop.logoUrl} alt={`${barbershop.name} Logo`} className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white object-cover shadow-xl -mt-12 md:-mt-16 flex-shrink-0" />
+                : <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-light-blue flex items-center justify-center text-primary-blue text-5xl font-bold border-4 border-white shadow-xl -mt-12 md:-mt-16 flex-shrink-0">{barbershop.name.charAt(0)}</div>
             }
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold">{barbershop.name}</h1>
-          <p className="text-md sm:text-lg mt-2 opacity-90">{barbershop.address}</p>
-          <p className="text-sm sm:text-md mt-1 opacity-90">Telefone: {barbershop.phone}</p>
-          {barbershop.description && <p className="text-sm sm:text-md mt-3 max-w-2xl mx-auto opacity-80">{barbershop.description}</p>}
-          {reviews.length > 0 && (
-            <div className="mt-4 flex items-center justify-center space-x-2">
-              <StarRating value={averageRating} isEditable={false} size={22} color="#FFD700" />
-              <span className="text-md font-semibold">({averageRating.toFixed(1)} de {reviews.length} avaliações)</span>
+            <div className="md:ml-6 mt-4 md:mt-0 text-center md:text-left">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold drop-shadow-md">{barbershop.name}</h1>
+              <p className="text-sm sm:text-md opacity-90">{barbershop.address}</p>
+              <p className="text-xs sm:text-sm opacity-90">Telefone: {barbershop.phone}</p>
+            </div>
+          </div>
+        </div>
+        {barbershop.description && <p className="text-xs sm:text-sm italic p-4 pt-0 md:pt-4 text-center text-gray-300 relative z-10 max-w-2xl mx-auto container">{barbershop.description}</p>}
+        {reviews.length > 0 && (
+            <div className="relative z-10 py-2 flex items-center justify-center space-x-2 bg-black/30 backdrop-blur-sm">
+              <StarRating value={averageRating} isEditable={false} size={20} color="#FFD700" inactiveColor="#A0A0A0" />
+              <span className="text-sm font-semibold text-white">({averageRating.toFixed(1)} de {reviews.length} avaliações)</span>
             </div>
           )}
-        </div>
       </header>
 
       <div className="container mx-auto px-4 grid md:grid-cols-12 gap-8">

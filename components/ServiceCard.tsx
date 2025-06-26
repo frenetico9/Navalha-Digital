@@ -1,6 +1,7 @@
 import React from 'react';
 import { Service } from '../types';
 import Button from './Button';
+// @ts-ignore
 import { Link } from 'react-router-dom';
 
 interface ServiceCardProps {
@@ -12,6 +13,19 @@ interface ServiceCardProps {
   isAdminView?: boolean;
 }
 
+const getServiceIcon = (serviceName: string): string => {
+  const name = serviceName.toLowerCase();
+  if (name.includes('corte') || name.includes('cortar')) return 'content_cut';
+  if (name.includes('barba')) return 'spa'; // Represents care/grooming for beard
+  if (name.includes('combo') || name.includes('pacote')) return 'auto_awesome';
+  if (name.includes('hidratação') || name.includes('tratamento')) return 'water_drop';
+  if (name.includes('pintura') || name.includes('coloração')) return 'palette';
+  if (name.includes('química') || name.includes('alisamento')) return 'science';
+  if (name.includes('vip') || name.includes('premium')) return 'workspace_premium';
+  return 'construction'; // Default icon for other services
+};
+
+
 const ServiceCard: React.FC<ServiceCardProps> = ({ 
   service, 
   barbershopId,
@@ -19,13 +33,17 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   onToggleActive, 
   isAdminView = false 
 }) => {
+  const serviceIcon = getServiceIcon(service.name);
   return (
     <div 
       className={`p-5 rounded-lg shadow-lg border-2 transition-all duration-300 ease-in-out hover:shadow-xl
                   ${service.isActive ? 'border-light-blue bg-white hover:border-primary-blue' 
                                       : 'border-gray-200 bg-gray-50 opacity-70'}`}
     >
-      <h3 className="text-lg font-semibold text-primary-blue mb-2 truncate" title={service.name}>{service.name}</h3>
+      <div className="flex items-center mb-2">
+        <span className="material-icons-outlined text-xl text-primary-blue mr-2">{serviceIcon}</span>
+        <h3 className="text-lg font-semibold text-primary-blue truncate flex-grow" title={service.name}>{service.name}</h3>
+      </div>
       <p className="text-gray-700 text-sm mb-1">Duração: {service.duration} minutos</p>
       <p className="text-md font-bold text-primary-blue mb-3">R$ {service.price.toFixed(2).replace('.', ',')}</p>
       {service.description && <p className="text-xs text-gray-600 mb-4 h-10 overflow-hidden text-ellipsis">{service.description}</p>}

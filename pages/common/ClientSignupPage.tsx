@@ -1,10 +1,11 @@
 import React from 'react';
+// @ts-ignore
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
 import { useAuth } from '../../hooks/useAuth';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-import { NAVALHA_SVG_ICON, MIN_PASSWORD_LENGTH } from '../../constants';
+import { NAVALHA_LOGO_URL, MIN_PASSWORD_LENGTH } from '../../constants';
 import { useNotification } from '../../contexts/NotificationContext';
 
 const ClientSignupPage: React.FC = () => {
@@ -23,7 +24,9 @@ const ClientSignupPage: React.FC = () => {
     onSubmit: async (formValues) => {
       const newUser = await signupClient(formValues.name, formValues.email, formValues.phone, formValues.password);
       if (newUser) {
-        addNotification({ message: 'Cadastro realizado com sucesso! Faça login para continuar.', type: 'success' });
+        // Supabase often requires email confirmation. 
+        // A real app should inform the user about this.
+        addNotification({ message: 'Cadastro realizado! Verifique seu e-mail para confirmação (se aplicável) e faça login.', type: 'success' });
         navigate('/login');
       }
       // Error notification is handled by AuthContext or signupClient itself
@@ -46,7 +49,7 @@ const ClientSignupPage: React.FC = () => {
     <div className="min-h-[calc(100vh-150px)] flex flex-col items-center justify-center bg-gradient-to-br from-white to-light-blue p-4 sm:p-6">
       <div className="w-full max-w-lg bg-white p-6 sm:p-8 md:p-10 rounded-xl shadow-2xl border border-primary-blue/20">
         <Link to="/" className="flex flex-col items-center mb-6 group">
-          <span className="text-primary-blue w-16 h-16 sm:w-20 sm:h-20 group-hover:opacity-80 transition-opacity" dangerouslySetInnerHTML={{ __html: NAVALHA_SVG_ICON }} />
+          <img src={NAVALHA_LOGO_URL} alt="Navalha Digital Logo" className="w-32 h-32 sm:w-40 sm:h-40 object-contain group-hover:opacity-80 transition-opacity" />
           <h2 className="mt-4 text-2xl sm:text-3xl font-bold text-center text-primary-blue group-hover:opacity-80 transition-opacity">Cadastro de Cliente</h2>
         </Link>
         <p className="mb-6 text-sm text-center text-gray-600">Crie sua conta para agendar serviços de forma rápida e fácil.</p>
