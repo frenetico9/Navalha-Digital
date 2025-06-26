@@ -131,7 +131,7 @@ const BarbershopPublicPage: React.FC = () => {
                   <span className="material-icons-outlined text-5xl text-gray-400 mb-3">rate_review</span>
                   <p>Esta barbearia ainda não possui avaliações. Seja o primeiro a avaliar após seu agendamento!</p>
                 </div>
-            </section>
+            </div>
           )}
         </section>
 
